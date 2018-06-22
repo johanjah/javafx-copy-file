@@ -3,5 +3,6 @@ aplikasi copy-file ini saya buat sebelumnya dalam bentuk console untuk perusahaa
 karena aplikasi console sangat tidak User-Friendly maka saya buatkan aplikasi guinya menggunakan javafx.
 
 -belum ada validasinya. tapi overall jalan mulus.
+-belum dibuat progress barnya.
 
 tunggu update selanjutnya.
