@@ -1,4 +1,4 @@
-package application;
+package foss.application;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXTextField;
 
 import foss.johan.copytools.CopyManager;
+import foss.johan.form.validate.FormValidator;
+import foss.johan.snippets.apache.tools.CleanerTools;
 import foss.johan.tools.FileBrowser;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,10 +17,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author johan
+ *
+ */
 public class FXMLDocumentController implements Initializable {
 
 	FileBrowser fb = new FileBrowser();
 	CopyManager cm = new CopyManager();
+	FormValidator fv = new FormValidator();
+	CleanerTools ct = new CleanerTools();
 
 	@FXML
 	private AnchorPane ap;
@@ -48,11 +57,16 @@ public class FXMLDocumentController implements Initializable {
 	public void start() {
 		String strSource = source.getText();
 		String strDest = dest.getText();
-		try {
-			cm.copyFile(new File(strSource), new File(strDest));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (fv.validateField(strSource, strDest)) {
+			try {
+				ct.cleanDirectory(new File(strDest));
+				cm.copyFile(new File(strSource), new File(strDest));
+				fv.successMessage(strDest);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				fv.failedMessage(strDest, e);
+			}
 		}
 
 	}
